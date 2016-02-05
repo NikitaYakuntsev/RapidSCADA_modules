@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Entity
 {
-    class CommandLog
+    public class CommandLog
     {
         public virtual int Id { get; set; }
         public virtual String Name { get; set; }

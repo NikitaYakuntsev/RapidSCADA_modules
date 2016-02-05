@@ -41,35 +41,40 @@ namespace ServiceLibrary
             UriTemplate = "device/all")]
         public List<Device> getDevices()
         {
+            AddCorsHeaders();
             throw new NotImplementedException();
         }
 
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json,
             UriTemplate = "device/{deviceId}")]
-        public Device getDevice(int deviceId)
+        public Device getDevice(String deviceId)
         {
+            AddCorsHeaders();
             throw new NotImplementedException();
         }
 
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json,
             UriTemplate = "device/{deviceId}/command/all")]
-        public List<Command> getDeviceCommands(int deviceId)
+        public List<Command> getDeviceCommands(String deviceId)
         {
+            AddCorsHeaders();
             throw new NotImplementedException();
         }
 
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json,
             UriTemplate = "device/{deviceId}/data/all")]
-        public List<Data> getDeviceData(int deviceId)
+        public List<Data> getDeviceData(String deviceId)
         {
+            AddCorsHeaders();
             throw new NotImplementedException();
         }
 
 
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.WrappedRequest,
             UriTemplate = "device/{deviceId}/command")]
-        public string sendCommand(int deviceId, string commandText)
+        public string sendCommand(String deviceId, string commandText)
         {
+            AddCorsHeaders();
             throw new NotImplementedException();
         }
 

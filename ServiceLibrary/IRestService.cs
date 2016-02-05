@@ -22,16 +22,16 @@ namespace ServiceLibrary
         List<Device> getDevices();
 
         [OperationContract]
-        Device getDevice(int deviceId);
+        Device getDevice(String deviceId);
 
         [OperationContract]
-        List<Command> getDeviceCommands(int deviceId);
+        List<Command> getDeviceCommands(String deviceId);
 
         [OperationContract]
-        List<Data> getDeviceData(int deviceId);
+        List<Data> getDeviceData(String deviceId);
 
         [OperationContract]
-        String sendCommand(int deviceId, String commandText);
+        String sendCommand(String deviceId, String commandText);
 
 
         [OperationContract]
