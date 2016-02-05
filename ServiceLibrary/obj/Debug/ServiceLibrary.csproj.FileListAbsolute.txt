@@ -1,0 +1,4 @@
+D:\DIPLOMA\ScadaRESTModule\ServiceLibrary\bin\Debug\ServiceLibrary.dll
+D:\DIPLOMA\ScadaRESTModule\ServiceLibrary\bin\Debug\ServiceLibrary.pdb
+D:\DIPLOMA\ScadaRESTModule\ServiceLibrary\obj\Debug\ServiceLibrary.dll
+D:\DIPLOMA\ScadaRESTModule\ServiceLibrary\obj\Debug\ServiceLibrary.pdb
