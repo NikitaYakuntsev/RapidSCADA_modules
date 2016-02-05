@@ -19,7 +19,7 @@ namespace Scada.Server.Modules
 
         public override string Name
         {
-            get { return "Scada REST Module"; }
+            get { return "Scada REST Module"; }         
         }
 
         public override void OnServerStart()

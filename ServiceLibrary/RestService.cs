@@ -5,6 +5,7 @@ using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Text;
 using System.Threading.Tasks;
+using Entity;
 
 namespace ServiceLibrary
 {
@@ -23,7 +24,7 @@ namespace ServiceLibrary
         }
 
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.WrappedRequest,
-            UriTemplate = "register/")]
+            UriTemplate = "register")]
         public SystemMessage register(String publicKey)
         {
             AddCorsHeaders();
@@ -36,10 +37,41 @@ namespace ServiceLibrary
             };
         }
 
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "device/all")]
+        public List<Device> getDevices()
+        {
+            throw new NotImplementedException();
+        }
+
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "device/{deviceId}")]
+        public Device getDevice(int deviceId)
+        {
+            throw new NotImplementedException();
+        }
+
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "device/{deviceId}/command/all")]
+        public List<Command> getDeviceCommands(int deviceId)
+        {
+            throw new NotImplementedException();
+        }
+
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "device/{deviceId}/data/all")]
+        public List<Data> getDeviceData(int deviceId)
+        {
+            throw new NotImplementedException();
+        }
 
 
-
-
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.WrappedRequest,
+            UriTemplate = "device/{deviceId}/command")]
+        public string sendCommand(int deviceId, string commandText)
+        {
+            throw new NotImplementedException();
+        }
 
 
 
