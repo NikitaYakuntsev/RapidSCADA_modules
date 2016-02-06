@@ -42,6 +42,7 @@ namespace ServiceLibrary
         public List<Device> getDevices()
         {
             AddCorsHeaders();
+
             throw new NotImplementedException();
         }
 
