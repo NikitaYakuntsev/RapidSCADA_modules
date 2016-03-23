@@ -5,42 +5,86 @@ using System.Text;
 using System.Threading.Tasks;
 using Entity;
 using EntityService.IRepository;
+using NHibernate;
+using Entity.Models;
 
 namespace EntityService.Repository
 {
-    public class CommonRepository<T> : ICommonRepository<T>
+    public abstract class CommonRepository<T> : ICommonRepository<T>
+        where T : Idable
     {
 
-        public void Add(T objectToAdd)
+        public T GetById(int objectId)
         {
             using (ISession session = NHibernateHelper.OpenSession())
             {
-                using (var transaction = session.BeginTransaction())
+                return (T)session.Get(typeof(T), objectId);
+            }
+        }
+
+        public abstract ICollection<T> GetAll();
+
+        public void Save(T objectToAdd)
+        {
+            using (ISession session = NHibernateHelper.OpenSession())
+            {
+                using (ITransaction transaction = session.BeginTransaction())
                 {
-                    session.Save(objectToAdd);
-                    transaction.Commit();
+                    try
+                    {
+                        session.Save(objectToAdd);                        
+                        transaction.Commit();
+                    }
+                    catch (Exception e)
+                    {
+                        transaction.Rollback();
+                        throw e;
+                    }
                 }
             }
         }
 
-        public void Update(T objectToUpdate)
+        public T Update(int id, T objectToUpdate)
         {
-            throw new NotImplementedException();
+            using (ISession session = NHibernateHelper.OpenSession())
+            {
+                using (ITransaction transaction = session.BeginTransaction())
+                {
+                    try
+                    {
+                        T obj = GetById(objectToUpdate.GetId());
+                        Idable newObj = session.Merge<Idable>(obj);
+                        transaction.Commit();
+                        return (T)newObj;
+                    }
+                    catch (Exception e)
+                    {
+                        transaction.Rollback();
+                        throw e;
+                    }
+                }
+            }
         }
 
-        public void Remove(T objectToRemove)
+        public void Remove(int id)
         {
-            throw new NotImplementedException();
-        }
-
-        public T GetById(int objectId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ICollection<T> GetAll()
-        {
-            throw new NotImplementedException();
+            using (ISession session = NHibernateHelper.OpenSession())
+            {
+                using (ITransaction transaction = session.BeginTransaction())
+                {
+                    try
+                    {
+                        T obj = GetById(id);
+                        session.Delete(obj);
+                        transaction.Commit();
+                    }
+                    catch (Exception e)
+                    {
+                        transaction.Rollback();
+                        throw e;
+                    }
+                }
+            }
         }
     }
 }

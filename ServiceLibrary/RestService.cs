@@ -6,21 +6,40 @@ using System.ServiceModel.Web;
 using System.Text;
 using System.Threading.Tasks;
 using Entity;
+using EntityService.Repository;
 
 namespace ServiceLibrary
 {
     public class RestService : IRestService
     {
+
+        private DeviceRepository devRep = new DeviceRepository();
+
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json,
             UriTemplate = "system/ip")]
         public IP getCurrentIp()
         {
             AddCorsHeaders();
+
+            Device device = new Device();
+            device.Name = "TestDevice";
+            device.Working = true;
+            devRep.Save(device);
+
+            Device andevice = new Device();
+            andevice.Name = "TestDevice2";
+            andevice.Working = false;
+            devRep.Save(andevice);
+            
+
             String strip = Ipify.GetPublicAddress();
             return new IP()
             {
                 ip = strip
             };
+
+
+
         }
 
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.WrappedRequest,
@@ -37,21 +56,23 @@ namespace ServiceLibrary
             };
         }
 
-        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json,
+        [WebInvoke(Method = "GET", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.WrappedRequest,
             UriTemplate = "device/all")]
         public List<Device> getDevices()
         {
             AddCorsHeaders();
 
-            throw new NotImplementedException();
+            var res = devRep.GetAll().ToList();
+            return res;
         }
 
-        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json,
+        [WebInvoke(Method = "GET", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.WrappedRequest,
             UriTemplate = "device/{deviceId}")]
         public Device getDevice(String deviceId)
         {
             AddCorsHeaders();
-            throw new NotImplementedException();
+
+            return devRep.GetById(Int32.Parse(deviceId));
         }
 
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json,

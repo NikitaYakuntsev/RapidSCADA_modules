@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NHibernate.Mapping.Attributes;
+using Entity.Models;
 
 namespace Entity
 {
-    [Class]
-    public class Data
+    [Class(NameType=typeof(Data))]
+    public class Data : Idable
     {
-        [Id(0)]
+        [Id(0, Type="int")]
         [Generator(1, Class = "native")]
         public virtual int Id { get; set; }
 
@@ -23,6 +24,11 @@ namespace Entity
         public virtual long Timestamp { get; set; }
 
         [ManyToOne(Name = "Device", ClassType = typeof(Device), Cascade = "save-update")]
-        public Device Device { get; set; }
+        public virtual Device Device { get; set; }
+
+        public virtual int GetId()
+        {
+            return this.Id;
+        }
     }
 }

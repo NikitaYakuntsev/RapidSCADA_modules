@@ -49,6 +49,10 @@
     <Compile Include="MessageTypes.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EntityService\EntityService.csproj">
+      <Project>{d6102fea-1bb4-4bf0-8a02-1ea2e5e5eea4}</Project>
+      <Name>EntityService</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Entity\Entity.csproj">
       <Project>{c02bc42b-48e1-474d-82c6-b5b439a69354}</Project>
       <Name>Entity</Name>

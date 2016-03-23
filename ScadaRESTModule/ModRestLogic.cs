@@ -25,6 +25,7 @@ namespace Scada.Server.Modules
         public override void OnServerStart()
         {
             WriteToLog("Module ModRestLogic loaded.", Log.ActTypes.Information);
+
             base.OnServerStart();
             InitRest();
             StartRest();            

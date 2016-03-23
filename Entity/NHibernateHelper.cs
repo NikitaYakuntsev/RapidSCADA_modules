@@ -7,6 +7,7 @@ using NHibernate;
 using NHibernate.Cfg;
 using NHibernate.Mapping.Attributes;
 using NHibernate.Tool.hbm2ddl;
+using System.IO;
 
 namespace Entity
 {
@@ -20,17 +21,23 @@ namespace Entity
             {
                 if (_sessionFactory == null)
                 {
+                    
                     var conf = new Configuration();
-                    conf.Configure(@"~\Models\HNibernate\NHibernate.cfg.xml");
+                    conf.Configure(@"D:\NHibernate.cfg.xml");
                     HbmSerializer.Default.Validate = true;
 
-                    var stream = HbmSerializer.Default.Serialize(Assembly.GetAssembly(typeof(Device)));
+
+
+                    //var stream = HbmSerializer.Default.Serialize(System.Reflection.Assembly.GetExecutingAssembly());
+                    //stream.Position = 0;
+                    var stream = HbmSerializer.Default.Serialize(typeof(Device));
                     conf.AddInputStream(stream);
 
-                    stream = HbmSerializer.Default.Serialize(Assembly.GetAssembly(typeof(Data)));
-                    conf.AddInputStream(stream);
 
-                    ISessionFactory sessionFactory = conf.BuildSessionFactory();
+                    //_sessionFactory = conf.BuildSessionFactory();
+                    var stream2 = HbmSerializer.Default.Serialize(typeof(Data));
+                    conf.AddInputStream(stream2);
+                    _sessionFactory = conf.BuildSessionFactory();
                     new SchemaUpdate(conf).Execute(true, true);
                 }
                 return _sessionFactory;
