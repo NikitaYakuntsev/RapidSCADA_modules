@@ -8,5 +8,6 @@ namespace Entity.Models
     public interface Idable
     {
         int GetId();
+        void SetId(int id);
     }
 }

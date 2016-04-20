@@ -10,7 +10,11 @@ namespace Entity
     [Class(NameType=typeof(Device))]
     public class Device : Idable
     {
-        [Id(0, Type="int")]
+        public Device()
+        {
+        }
+
+        [Id(0, Type="integer", Name="Id")]
         [Generator(1, Class = "native")]
         public virtual int Id { get; set; }
 
@@ -31,11 +35,19 @@ namespace Entity
             set { _data = value; } 
         }
 
-        
-        
+
+
         public virtual int GetId()
         {
             return this.Id;
+        }
+        public virtual void SetId(int id)
+        {
+            this.Id = id;
+        }
+        public virtual String toString()
+        {
+            return GetId().ToString();
         }
     }
 }

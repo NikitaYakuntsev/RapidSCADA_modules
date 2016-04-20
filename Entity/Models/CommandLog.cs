@@ -15,5 +15,14 @@ namespace Entity
         {
             return this.Id;
         }
+        public virtual void SetId(int id)
+        {
+            this.Id = id;
+        }
+
+        public virtual String toString()
+        {
+            return GetId().ToString();
+        }
     }
 }

@@ -13,7 +13,8 @@ namespace ServiceLibrary
     public class RestService : IRestService
     {
 
-        private DeviceRepository devRep = new DeviceRepository();
+        private DeviceRepository devRep = DeviceRepository.GetInstance();
+        private DataRepository dataRep = DataRepository.GetInstance();
 
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json,
             UriTemplate = "system/ip")]
@@ -21,15 +22,22 @@ namespace ServiceLibrary
         {
             AddCorsHeaders();
 
+            /*
             Device device = new Device();
-            device.Name = "TestDevice";
+            device.Name = "TestDevice" + new Random().Next();
             device.Working = true;
-            devRep.Save(device);
+            device.Id = devRep.Save(device);
 
-            Device andevice = new Device();
-            andevice.Name = "TestDevice2";
-            andevice.Working = false;
-            devRep.Save(andevice);
+            Data data = new Data();
+            data.Device = device;
+            data.Name = "temp";
+            data.Timestamp = (DateTime.Now - new DateTime(1970, 1, 1, 0, 0, 0)).Seconds;
+            data.Value = new Random().Next();
+            data.Id = dataRep.Save(data);
+            */
+            //device.Data.Add(data);
+            //devRep.Update(device.Id, device);
+            
             
 
             String strip = Ipify.GetPublicAddress();
@@ -56,7 +64,7 @@ namespace ServiceLibrary
             };
         }
 
-        [WebInvoke(Method = "GET", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.WrappedRequest,
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, 
             UriTemplate = "device/all")]
         public List<Device> getDevices()
         {
@@ -88,7 +96,8 @@ namespace ServiceLibrary
         public List<Data> getDeviceData(String deviceId)
         {
             AddCorsHeaders();
-            throw new NotImplementedException();
+            return /*new List<Data>(dataRep.GetByDevice(Int32.Parse(deviceId)));   //*/
+                new List<Data>(devRep.GetById(Int32.Parse(deviceId)).Data);
         }
 
 

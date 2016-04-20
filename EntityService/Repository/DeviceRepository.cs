@@ -9,11 +9,20 @@ namespace EntityService.Repository
 {
     public class DeviceRepository : CommonRepository<Device>
     {
-        /*
-        T Update(int id, T objectToUpdate);
-        T GetById(int objectId);
-        ICollection<T> GetAll(); 
-        */
+        private DeviceRepository()
+        {
+           
+        }
+
+        private static DeviceRepository instance = new DeviceRepository();
+
+
+        public static DeviceRepository GetInstance()
+        {
+            if (instance == null)
+                instance = new DeviceRepository();
+            return instance;
+        }
 
         public Device Update(int id, Device objectToUpdate)
         {
@@ -27,9 +36,9 @@ namespace EntityService.Repository
                         oldDev.Name = objectToUpdate.Name;
                         oldDev.Working = objectToUpdate.Working;
                         oldDev.Data = objectToUpdate.Data;
-                        Device newDev = session.Merge(oldDev);
+                        session.Update(oldDev);
                         transaction.Commit();
-                        return newDev;
+                        return null;
                     }
                     catch (Exception e)
                     {
@@ -47,7 +56,8 @@ namespace EntityService.Repository
             {
                 IQuery query = session.CreateQuery("FROM Device WHERE Id = :id");
                 query.SetParameter("id", objectId);
-                return (Device)query.UniqueResult();
+                Device res = (Device)query.UniqueResult();
+                return res;
             }
         }
 
@@ -56,7 +66,8 @@ namespace EntityService.Repository
             using (ISession session = NHibernateHelper.OpenSession())
             {
                 IQuery query = session.CreateQuery("FROM Device");
-                return query.List<Device>();
+                ICollection<Device> res = query.List<Device>(); 
+                return res;
             }
         }
     }

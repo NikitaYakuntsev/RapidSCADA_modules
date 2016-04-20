@@ -10,7 +10,7 @@ namespace Entity
     [Class(NameType=typeof(Data))]
     public class Data : Idable
     {
-        [Id(0, Type="int")]
+        [Id(0, Type="int", Name="Id")]
         [Generator(1, Class = "native")]
         public virtual int Id { get; set; }
 
@@ -29,6 +29,16 @@ namespace Entity
         public virtual int GetId()
         {
             return this.Id;
+        }
+
+        public virtual void SetId(int id)
+        {
+            this.Id = id;
+        }
+
+        public virtual String toString()
+        {
+            return GetId().ToString();
         }
     }
 }

@@ -13,6 +13,8 @@ namespace EntityService.Repository
     public abstract class CommonRepository<T> : ICommonRepository<T>
         where T : Idable
     {
+       
+
 
         public T GetById(int objectId)
         {
@@ -24,22 +26,27 @@ namespace EntityService.Repository
 
         public abstract ICollection<T> GetAll();
 
-        public void Save(T objectToAdd)
+        public int Save(T objectToAdd)
         {
             using (ISession session = NHibernateHelper.OpenSession())
             {
                 using (ITransaction transaction = session.BeginTransaction())
                 {
                     try
-                    {
-                        session.Save(objectToAdd);                        
+                    {                        
+                        int ret = (int)session.Save(objectToAdd);
+                        objectToAdd.SetId(ret);
+                        
+                        session.Flush();
+                        session.Refresh(objectToAdd);
                         transaction.Commit();
+                        return ret;
                     }
                     catch (Exception e)
                     {
                         transaction.Rollback();
                         throw e;
-                    }
+                    }                    
                 }
             }
         }
