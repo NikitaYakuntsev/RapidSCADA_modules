@@ -34,17 +34,19 @@ namespace UnitTestProject
         {
             Device device = new Device();
             int num = new Random().Next();
-            device.Name = "TestDevice" + num;
+            device.Name = "TestDeviceUpdate" + num;
             device.Working = true;
             devRep.Save(device);
 
             string newName = "Hello world";
+            bool newWorking = false;
             device.Name = newName;
+            device.Working = newWorking;
             devRep.Update(device.Id, device);
 
             Device another = devRep.GetById(device.Id);
-            Assert.AreEqual(another.Name, newName);
-
+            Assert.AreEqual(newName, another.Name);
+            Assert.AreEqual(newWorking, another.Working);
         }
 
         [TestMethod]
@@ -68,6 +70,36 @@ namespace UnitTestProject
 
             foreach (var cur in device.Data)
                 Assert.AreEqual(another.Id, cur.Id);
+        }
+
+        [TestMethod]
+        public void TestDataUpdate()
+        {
+            Device device = new Device();
+            device.Name = "TestDataUpdate" + new Random().Next();
+            device.Working = true;
+            devRep.Save(device);
+
+            Data data = new Data();
+            data.Name = "TestDataUpdate";
+            data.Timestamp = (DateTime.Now - new DateTime(1970, 1, 1, 0, 0, 0)).Seconds;
+            data.Value = new Random().Next();
+            data.Device = device;
+            dataRep.Save(data);
+
+            string newName = "newName";
+            long newTs = 1234;
+            double value = 12345;
+            data.Name = newName;
+            data.Timestamp = newTs;
+            data.Value = value;
+            dataRep.Update(data.Id, data);
+
+
+            Data another = dataRep.GetById(data.Id);
+            Assert.AreEqual(newName, another.Name);
+            Assert.AreEqual( newTs, another.Timestamp);
+            Assert.AreEqual(value, another.Value);
         }
 
 
