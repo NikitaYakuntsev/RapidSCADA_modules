@@ -35,7 +35,16 @@ namespace Entity
             set { _data = value; } 
         }
 
-
+        [Bag(0, Name = "Command", Inverse = true, Lazy = CollectionLazy.False)]
+        [Key(1)]
+        [OneToMany(2, ClassType = typeof(Command))]
+        private IList<Command> _command;
+        public virtual IList<Command> Command
+        {
+            get { return _command ?? (_command = new List<Command>()); }
+            set { _command = value; }
+        }
+        
 
         public virtual int GetId()
         {

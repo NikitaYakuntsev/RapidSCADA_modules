@@ -30,13 +30,21 @@ namespace Entity
 
                     //var stream = HbmSerializer.Default.Serialize(System.Reflection.Assembly.GetExecutingAssembly());
                     //stream.Position = 0;
-                    var stream = HbmSerializer.Default.Serialize(typeof(Device));
-                    conf.AddInputStream(stream);
+                    var deviceStream = HbmSerializer.Default.Serialize(typeof(Device));
+                    conf.AddInputStream(deviceStream);
 
+                    var dataStream = HbmSerializer.Default.Serialize(typeof(Data));
+                    conf.AddInputStream(dataStream);
 
-                    //_sessionFactory = conf.BuildSessionFactory();
-                    var stream2 = HbmSerializer.Default.Serialize(typeof(Data));
-                    conf.AddInputStream(stream2);
+                    var commStream = HbmSerializer.Default.Serialize(typeof(Command));
+                    conf.AddInputStream(commStream);
+
+                    var tokenStream = HbmSerializer.Default.Serialize(typeof(Token));
+                    conf.AddInputStream(tokenStream);
+
+                    var commLogStream = HbmSerializer.Default.Serialize(typeof(CommandLog));
+                    conf.AddInputStream(commLogStream);
+
                     _sessionFactory = conf.BuildSessionFactory();
                     new SchemaUpdate(conf).Execute(true, true);
                 }

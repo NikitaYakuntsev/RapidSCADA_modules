@@ -1,4 +1,5 @@
 ﻿using Entity.Models;
+using NHibernate.Mapping.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,10 +7,27 @@ using System.Text;
 
 namespace Entity
 {
+    [Class(NameType = typeof(CommandLog))]
     public class CommandLog : Idable
     {
+        [Id(0, Type = "int", Name = "Id")]
+        [Generator(1, Class = "native")]
         public virtual int Id { get; set; }
+
+        [Property]
         public virtual String Name { get; set; }
+
+        [Property]
+        public virtual long Timestamp { get; set; }
+
+        [Property]
+        public virtual bool Sent { get; set; }
+
+        [ManyToOne(Name = "Command", ClassType = typeof(Command), Cascade = "save-update")]
+        public virtual Command Command { get; set; }
+
+        [ManyToOne(Name = "Token", ClassType = typeof(Token), Cascade = "save-update")]
+        public virtual Token Token { get; set; }
 
         public virtual int GetId()
         {

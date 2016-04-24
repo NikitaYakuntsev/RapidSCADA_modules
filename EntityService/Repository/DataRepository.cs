@@ -9,9 +9,7 @@ namespace EntityService.Repository
 {
     public class DataRepository : CommonRepository<Data>
     {
-        private DataRepository() {
-           
-        }
+        private DataRepository() { }
 
         private static DataRepository instance = new DataRepository();
 

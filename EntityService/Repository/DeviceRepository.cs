@@ -35,7 +35,7 @@ namespace EntityService.Repository
                         Device oldDev = (Device)session.Get(objectToUpdate.GetType(), objectToUpdate.GetId());
                         oldDev.Name = objectToUpdate.Name;
                         oldDev.Working = objectToUpdate.Working;
-                        oldDev.Data = objectToUpdate.Data;
+                        oldDev.Command = objectToUpdate.Command;
                         session.Update(oldDev);
                         transaction.Commit();
                         return null;
