@@ -35,6 +35,7 @@ namespace EntityService.Repository
                         old.Timestamp = objectToUpdate.Timestamp;
                         old.Token = objectToUpdate.Token;
                         old.Command = objectToUpdate.Command;
+                        session.Evict(old);
                         CommandLog newCL = session.Merge(old);
                         transaction.Commit();
                         return newCL;
@@ -77,5 +78,16 @@ namespace EntityService.Repository
                 return query.List<CommandLog>();
             }
         }
+
+        public ICollection<CommandLog> GetByDevice(int deviceId)
+        {
+            using (ISession session = NHibernateHelper.OpenSession())
+            {
+                IQuery query = session.CreateQuery("select cl FROM CommandLog cl INNER JOIN cl.Command com WHERE com.Device = :devid");
+                query.SetParameter("devid", deviceId);
+                return query.List<CommandLog>();
+            }
+        }
+
     }
 }

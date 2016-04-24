@@ -33,6 +33,7 @@ namespace EntityService.Repository
                         old.CreationDate = objectToUpdate.CreationDate;
                         old.ExpirationDate = objectToUpdate.ExpirationDate;
                         old.Name = objectToUpdate.Name;
+                        session.Evict(old);
                         Token newToken = session.Merge(old);
                         transaction.Commit();
                         return newToken;

@@ -13,41 +13,23 @@ namespace ServiceLibrary
     public class RestService : IRestService
     {
 
-        private DeviceRepository devRep = DeviceRepository.GetInstance();
-        private DataRepository dataRep = DataRepository.GetInstance();
+        private static DeviceRepository devRep = DeviceRepository.GetInstance();
+        private static DataRepository dataRep = DataRepository.GetInstance();
+        private static CommandRepository commRep = CommandRepository.GetInstance();
+        private static CommandLogRepository commLogRep = CommandLogRepository.GetInstance();
+        private static TokenRepository tokRep = TokenRepository.GetInstance();
 
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json,
             UriTemplate = "system/ip")]
         public IP getCurrentIp()
         {
-            AddCorsHeaders();
-
-            /*
-            Device device = new Device();
-            device.Name = "TestDevice" + new Random().Next();
-            device.Working = true;
-            device.Id = devRep.Save(device);
-
-            Data data = new Data();
-            data.Device = device;
-            data.Name = "temp";
-            data.Timestamp = (DateTime.Now - new DateTime(1970, 1, 1, 0, 0, 0)).Seconds;
-            data.Value = new Random().Next();
-            data.Id = dataRep.Save(data);
-            */
-            //device.Data.Add(data);
-            //devRep.Update(device.Id, device);
-            
-            
+            AddCorsHeaders();         
 
             String strip = Ipify.GetPublicAddress();
             return new IP()
             {
                 ip = strip
             };
-
-
-
         }
 
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.WrappedRequest,
@@ -64,44 +46,65 @@ namespace ServiceLibrary
             };
         }
 
-        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, 
+        [WebInvoke(Method = "GET",
+            BodyStyle = WebMessageBodyStyle.Bare,
+            ResponseFormat = WebMessageFormat.Json, 
             UriTemplate = "device/all")]
         public List<Device> getDevices()
         {
             AddCorsHeaders();
-
             var res = devRep.GetAll().ToList();
             return res;
         }
 
-        [WebInvoke(Method = "GET", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.WrappedRequest,
+        [WebInvoke(Method = "GET",
+            BodyStyle = WebMessageBodyStyle.Bare,
+            RequestFormat = WebMessageFormat.Json, 
+            ResponseFormat = WebMessageFormat.Json,
             UriTemplate = "device/{deviceId}")]
         public Device getDevice(String deviceId)
         {
             AddCorsHeaders();
-
             return devRep.GetById(Int32.Parse(deviceId));
         }
 
-        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json,
+        [WebInvoke(Method = "GET",
+            BodyStyle = WebMessageBodyStyle.Bare,
+            ResponseFormat = WebMessageFormat.Json,
             UriTemplate = "device/{deviceId}/command/all")]
         public List<Command> getDeviceCommands(String deviceId)
         {
             AddCorsHeaders();
-            throw new NotImplementedException();
+            List<Command> res = commRep.GetByDevice(Int32.Parse(deviceId)).ToList();
+            return res;
         }
 
-        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json,
+        [WebInvoke(Method = "GET",
+            BodyStyle = WebMessageBodyStyle.Bare,
+            ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "device/{deviceId}/command/log")]
+        public List<CommandLog> getDeviceCommandLog(String deviceId)
+        {
+            AddCorsHeaders();
+            List<CommandLog> res = commLogRep.GetByDevice(Int32.Parse(deviceId)).ToList();
+            return res;
+        }
+
+        [WebInvoke(Method = "GET", 
+            BodyStyle=WebMessageBodyStyle.Bare,
+            ResponseFormat = WebMessageFormat.Json,
             UriTemplate = "device/{deviceId}/data/all")]
         public List<Data> getDeviceData(String deviceId)
         {
             AddCorsHeaders();
-            return /*new List<Data>(dataRep.GetByDevice(Int32.Parse(deviceId)));   //*/
-                new List<Data>(devRep.GetById(Int32.Parse(deviceId)).Data);
+            List<Data> res = dataRep.GetByDevice(Int32.Parse(deviceId)).ToList();
+            return res;
         }
 
-
-        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.WrappedRequest,
+        [WebInvoke(Method = "POST",
+            BodyStyle = WebMessageBodyStyle.WrappedRequest,
+            RequestFormat = WebMessageFormat.Json, 
+            ResponseFormat = WebMessageFormat.Json, 
             UriTemplate = "device/{deviceId}/command")]
         public string sendCommand(String deviceId, string commandText)
         {

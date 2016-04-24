@@ -37,9 +37,11 @@ namespace EntityService.Repository
                         oldDev.Working = objectToUpdate.Working;
                         oldDev.Data = objectToUpdate.Data;
                         oldDev.Command = objectToUpdate.Command;
-                        session.Update(oldDev);
+                        session.Evict(oldDev);
+                        Device newDev = session.Merge(oldDev);
+                        //session.Update(oldDev);
                         transaction.Commit();
-                        return null;
+                        return newDev;
                     }
                     catch (Exception e)
                     {

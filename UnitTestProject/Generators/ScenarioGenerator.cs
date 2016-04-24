@@ -35,12 +35,15 @@ namespace UnitTestProject.Generators
             return comm;
         }
 
-        public static CommandLog GetFilledCommandLog(Command comm = null)
+        public static CommandLog GetFilledCommandLog(Command comm = null, Token tok = null)
         {
             CommandLog comL = EntityGenerator.GetCommandLog();
             if (comm == null)
                 comm = GetFilledCommand();
+            if (tok == null)
+                tok = GetFilledToken();
             comL.Command = comm;
+            comL.Token = tok;
             commLogRep.Save(comL);
             return comL;
         }

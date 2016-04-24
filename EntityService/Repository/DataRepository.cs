@@ -35,6 +35,7 @@ namespace EntityService.Repository
                         oldDev.Value = objectToUpdate.Value;
                         oldDev.Timestamp = objectToUpdate.Timestamp;
                         oldDev.Device = objectToUpdate.Device;
+                        session.Evict(oldDev);
                         Data newDev = session.Merge(oldDev);
                         transaction.Commit();
                         return newDev;

@@ -3,6 +3,7 @@ using NHibernate.Mapping.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace Entity
@@ -10,6 +11,7 @@ namespace Entity
     [Class(NameType=typeof(Token))]
     public class Token : Idable
     {
+        public Token() { }
         [Id(0, Type = "integer", Name = "Id")]
         [Generator(1, Class = "native")]
         public virtual int Id { get; set; }
@@ -23,10 +25,12 @@ namespace Entity
         [Property]
         public virtual long ExpirationDate { get; set; }
 
+        [IgnoreDataMember]
         [Bag(0, Name = "CommandRecords", Inverse = true, Lazy = CollectionLazy.False)]
-        [Key(1)]
+        [Key(1, Column = "Token")]
         [OneToMany(2, ClassType = typeof(CommandLog))]
         private IList<CommandLog> _commandRecords;
+        [IgnoreDataMember]
         public virtual IList<CommandLog> CommandRecords
         {
             get { return _commandRecords ?? (_commandRecords = new List<CommandLog>()); }

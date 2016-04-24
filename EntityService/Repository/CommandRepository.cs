@@ -33,6 +33,7 @@ namespace EntityService.Repository
                         oldCom.Name = objectToUpdate.Name;
                         oldCom.Text = objectToUpdate.Text;
                         oldCom.Device = objectToUpdate.Device;
+                        session.Evict(oldCom);
                         Command newCom = session.Merge(oldCom);
                         transaction.Commit();
                         return newCom;

@@ -40,14 +40,14 @@ namespace UnitTestProject
             Device device = new Device();
             device.Name = "TestDataUpdate" + new Random().Next();
             device.Working = true;
-            devRep.Save(ref device);
+            devRep.Save(device);
 
             Data data = new Data();
             data.Name = "TestDataUpdate";
             data.Timestamp = (DateTime.Now - new DateTime(1970, 1, 1, 0, 0, 0)).Seconds;
             data.Value = new Random().Next();
             data.Device = device;
-            dataRep.Save(ref data);
+            dataRep.Save(data);
 
             string newName = "newName";
             long newTs = 1234;

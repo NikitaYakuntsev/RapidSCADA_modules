@@ -66,6 +66,7 @@
   <ItemGroup>
     <Compile Include="DeviceRepositoryTest.cs" />
     <Compile Include="Generators\EntityGenerator.cs" />
+    <Compile Include="Generators\ScenarioGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DataRepositoryTest.cs" />
     <Compile Include="CommandRepositoryTest.cs" />

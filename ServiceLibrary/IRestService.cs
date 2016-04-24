@@ -28,6 +28,9 @@ namespace ServiceLibrary
         List<Command> getDeviceCommands(String deviceId);
 
         [OperationContract]
+        List<CommandLog> getDeviceCommandLog(String deviceId);
+
+        [OperationContract]
         List<Data> getDeviceData(String deviceId);
 
         [OperationContract]
