@@ -26,7 +26,7 @@ namespace EntityService.Repository
 
         public abstract ICollection<T> GetAll();
 
-        public int Save(T objectToAdd)
+        public int Save(ref T objectToAdd)
         {
             using (ISession session = NHibernateHelper.OpenSession())
             {
@@ -35,6 +35,7 @@ namespace EntityService.Repository
                     try
                     {                        
                         int ret = (int)session.Save(objectToAdd);
+                        session.Persist(objectToAdd);                        
                         objectToAdd.SetId(ret);
                         
                         session.Flush();
@@ -49,6 +50,11 @@ namespace EntityService.Repository
                     }                    
                 }
             }
+        }
+
+        public int Save(T objectToAdd)
+        {
+            return Save(ref objectToAdd);
         }
 
         public T Update(int id, T objectToUpdate)

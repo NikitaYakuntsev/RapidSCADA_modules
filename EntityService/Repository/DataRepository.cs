@@ -31,7 +31,7 @@ namespace EntityService.Repository
                     try
                     {
                         Data oldDev = (Data)session.Get(objectToUpdate.GetType(), objectToUpdate.GetId());
-                        oldDev.Name = objectToUpdate.Name;
+                        oldDev.Name = objectToUpdate.Name;                        
                         oldDev.Value = objectToUpdate.Value;
                         oldDev.Timestamp = objectToUpdate.Timestamp;
                         oldDev.Device = objectToUpdate.Device;

@@ -65,9 +65,11 @@
   </Choose>
   <ItemGroup>
     <Compile Include="DeviceRepositoryTest.cs" />
+    <Compile Include="Generators\EntityGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DataRepositoryTest.cs" />
     <Compile Include="CommandRepositoryTest.cs" />
+    <Compile Include="TokenRepositoryTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EntityService\EntityService.csproj">

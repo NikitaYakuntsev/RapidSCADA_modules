@@ -32,7 +32,7 @@ namespace EntityService.Repository
                 {
                     try
                     {
-                        Device oldDev = (Device)session.Get(objectToUpdate.GetType(), objectToUpdate.GetId());
+                        Device oldDev = (Device)session.Get(objectToUpdate.GetType(), objectToUpdate.GetId());                        
                         oldDev.Name = objectToUpdate.Name;
                         oldDev.Working = objectToUpdate.Working;
                         oldDev.Data = objectToUpdate.Data;

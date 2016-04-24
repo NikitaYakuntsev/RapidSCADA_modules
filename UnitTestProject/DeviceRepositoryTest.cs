@@ -3,6 +3,7 @@ using System.Collections;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using EntityService.Repository;
 using Entity;
+using UnitTestProject.Generators;
 
 namespace UnitTestProject
 {
@@ -17,11 +18,8 @@ namespace UnitTestProject
         [TestMethod]
         public void TestDeviceSave()
         {
-            Device device = new Device();
-            int num = new Random().Next();
-            device.Name = "TestDevice" + num;
-            device.Working = true;
-            devRep.Save(device);
+            Device device = EntityGenerator.GetDevice();
+            devRep.Save(ref device);
 
             Device another = devRep.GetById(device.Id);
             Assert.AreEqual(device.Id, another.Id);
@@ -33,11 +31,8 @@ namespace UnitTestProject
         [TestMethod]
         public void TestDeviceUpdate()
         {
-            Device device = new Device();
-            int num = new Random().Next();
-            device.Name = "TestDeviceUpdate" + num;
-            device.Working = true;
-            devRep.Save(device);
+            Device device = EntityGenerator.GetDevice();         
+            devRep.Save(ref device);
 
             string newName = "Hello world";
             bool newWorking = false;
@@ -48,6 +43,32 @@ namespace UnitTestProject
             Device another = devRep.GetById(device.Id);
             Assert.AreEqual(newName, another.Name);
             Assert.AreEqual(newWorking, another.Working);
+        }
+
+        [TestMethod]
+        public void TestRemoveDevice()
+        {
+            Device device = EntityGenerator.GetDevice();
+            devRep.Save(ref device);
+
+            devRep.Remove(device.Id);
+
+            object actual = devRep.GetById(device.Id);
+            Assert.AreEqual(null, actual);
+        }
+
+        [TestMethod]
+        public void TestDevicePersistentState()
+        {
+            Device device = EntityGenerator.GetDevice();
+            devRep.Save(ref device);
+
+            string newName = "Hello World";
+            device.Name = newName;
+            //devRep.Update(device.Id, device);
+
+            Device another = devRep.GetById(device.Id);
+            Assert.AreEqual(newName, another.Name);
         }
 
         

@@ -17,14 +17,14 @@ namespace UnitTestProject
             Device device = new Device();
             device.Name = "TestDataSave" + new Random().Next();
             device.Working = true;
-            devRep.Save(device);
+            devRep.Save(ref device);
 
             Data data = new Data();
             data.Name = "TestDataSave1";
             data.Timestamp = (DateTime.Now - new DateTime(1970, 1, 1, 0, 0, 0)).Seconds;
             data.Value = new Random().Next();
             data.Device = device;
-            dataRep.Save(data);
+            dataRep.Save(ref data);
 
             Data another = dataRep.GetById(data.Id);
 
@@ -40,14 +40,14 @@ namespace UnitTestProject
             Device device = new Device();
             device.Name = "TestDataUpdate" + new Random().Next();
             device.Working = true;
-            devRep.Save(device);
+            devRep.Save(ref device);
 
             Data data = new Data();
             data.Name = "TestDataUpdate";
             data.Timestamp = (DateTime.Now - new DateTime(1970, 1, 1, 0, 0, 0)).Seconds;
             data.Value = new Random().Next();
             data.Device = device;
-            dataRep.Save(data);
+            dataRep.Save(ref data);
 
             string newName = "newName";
             long newTs = 1234;

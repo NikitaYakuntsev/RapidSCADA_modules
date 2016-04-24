@@ -12,7 +12,7 @@ namespace EntityService.IRepository
     public interface ICommonRepository<T>
         where T : Idable
     {
-        int Save(T objectToAdd);
+        int Save(ref T objectToAdd);
         T Update(int id, T objectToUpdate);
         void Remove(int id);
         T GetById(int objectId);

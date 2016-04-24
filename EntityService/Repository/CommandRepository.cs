@@ -29,6 +29,7 @@ namespace EntityService.Repository
                     try
                     {
                         Command oldCom = (Command)session.Get(objectToUpdate.GetType(), objectToUpdate.GetId());
+                        oldCom.CommandRecords = objectToUpdate.CommandRecords;                        
                         oldCom.Name = objectToUpdate.Name;
                         oldCom.Text = objectToUpdate.Text;
                         oldCom.Device = objectToUpdate.Device;
