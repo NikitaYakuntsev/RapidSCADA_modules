@@ -14,7 +14,7 @@ namespace Entity
         public Data() { }
 
         [Id(0, Type="int", Name="Id")]
-        [Generator(1, Class = "native")]
+        [Generator(1, Class = "native")]        
         public virtual int Id { get; set; }
 
         [Property]
@@ -23,7 +23,7 @@ namespace Entity
         [Property]
         public virtual double Value { get; set; }
 
-        [Property]
+        [Property(Index="IDX_Data_Timestamp")]
         public virtual long Timestamp { get; set; }
 
         [ManyToOne(Name = "Device", Column = "Device", ClassType = typeof(Device), Cascade = "save-update", Lazy = Laziness.False)]

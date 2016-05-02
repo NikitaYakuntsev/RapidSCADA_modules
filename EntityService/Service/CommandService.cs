@@ -1,25 +1,26 @@
-﻿using Entity;
+﻿using Common;
+using Entity;
 using EntityService.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace EntityService.Facade
+namespace EntityService.Service
 {
-    public class CommandFacade
+    public class CommandService
     {
         private static CommandRepository commRep = CommandRepository.GetInstance();
         private static CommandLogRepository commLogRep = CommandLogRepository.GetInstance();
         private static TokenRepository tokRep = TokenRepository.GetInstance();
 
-        private CommandFacade() { }
-        private static CommandFacade instance = new CommandFacade();
+        private CommandService() { }
+        private static CommandService instance = new CommandService();
 
-        public static CommandFacade GetInstance()
+        public static CommandService GetInstance()
         {
             if (instance == null)
-                instance = new CommandFacade();
+                instance = new CommandService();
             return instance;
         }
 
@@ -30,17 +31,12 @@ namespace EntityService.Facade
             newRecord.Command = recieved;
             newRecord.Name = recieved.Name;
             newRecord.Sent = false;
-            newRecord.Timestamp = UnixTimeNow();
+            newRecord.Timestamp = Utils.GetUnixTime();
             Token token = tokRep.GetById(tokenId);
             newRecord.Token = token;
             commLogRep.Save(newRecord);
             return true;
         }
 
-        private long UnixTimeNow()
-        {
-            var timeSpan = (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0));
-            return (long)timeSpan.TotalSeconds;
-        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Entity;
+using Entity.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,7 @@ namespace UnitTestProject.Generators
 {
     public class EntityGenerator
     {
+        private static Random rnd = new Random();
 
         public static Data GetData()
         {
@@ -52,14 +54,22 @@ namespace UnitTestProject.Generators
             return res;
         }
 
+        public static SystemParameter GetSystemParameter()
+        {
+            SystemParameter sp = new SystemParameter();
+            sp.Key = "SystemParameter" + RandomIntModifier() + RandomIntModifier();
+            sp.Value = RandomIntModifier().ToString();
+            return sp;
+        }
+
         private static int RandomIntModifier()
         {
-            return new Random().Next(0, 100000);
+            return rnd.Next(0, 100000);
         }
 
         private static bool RandomBoolModifier()
         {
-            return new Random().Next() % 2 == 0;
+            return rnd.Next() % 2 == 0;
         }
     }
 }

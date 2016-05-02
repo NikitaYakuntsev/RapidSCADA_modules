@@ -6,9 +6,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace EntityService.Facade
+namespace EntityService.Service
 {
-    public class DataFacade
+    public class DataService
     {
         private static DataRepository dataRep = DataRepository.GetInstance();
 
@@ -23,12 +23,12 @@ namespace EntityService.Facade
             return res;
         }
 
-        private DataFacade() { }
-        private static DataFacade instance = new DataFacade();
-        public static DataFacade GetInstance()
+        private DataService() { }
+        private static DataService instance = new DataService();
+        public static DataService GetInstance()
         {
             if (instance == null)
-                instance = new DataFacade();
+                instance = new DataService();
             return instance;
         }
     }

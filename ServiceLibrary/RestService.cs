@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Entity;
 using EntityService.Repository;
-using EntityService.Facade;
+using EntityService.Service;
 using Entity.Models;
 using EntityDTO.ModelsDTO;
 
@@ -58,7 +58,7 @@ namespace ServiceLibrary
             AddCorsHeaders();
             //var res = devRep.GetAll().ToList();            
             //return res;
-            return DeviceFacade.GetInstance().GetAllDevices();
+            return DeviceService.GetInstance().GetAllDevices();
         }
 
         [WebInvoke(Method = "GET",
@@ -111,7 +111,7 @@ namespace ServiceLibrary
             UriTemplate = "device/{deviceId}/data/?from={from}&to={to}")]
         public List<DataDTO> getDeviceDataInPeriod(string deviceId, string from, string to)
         {
-            return DataFacade.GetInstance().GetDatasByDevice(Int32.Parse(deviceId), from, to);
+            return DataService.GetInstance().GetDatasByDevice(Int32.Parse(deviceId), from, to);
         }
 
         [WebInvoke(Method = "POST",
@@ -122,7 +122,7 @@ namespace ServiceLibrary
         {
             AddCorsHeaders();
             try {
-                CommandFacade.GetInstance().AddCommandToQueue(Int32.Parse(commandId), Int32.Parse(tokenId));
+                CommandService.GetInstance().AddCommandToQueue(Int32.Parse(commandId), Int32.Parse(tokenId));
                 return System.Net.HttpStatusCode.Created;
             } catch (Exception e) {
                 throw e;

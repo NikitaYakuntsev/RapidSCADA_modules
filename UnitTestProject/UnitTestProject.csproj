@@ -72,9 +72,14 @@
     <Compile Include="CommandRepositoryTest.cs" />
     <Compile Include="TokenRepositoryTest.cs" />
     <Compile Include="CommandLogRepositoryTest.cs" />
+    <Compile Include="SPRepTest.cs" />
     <Compile Include="UserScenariosTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{0ab1205b-3a10-46ea-a0b9-41a36a65f45b}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EntityService\EntityService.csproj">
       <Project>{d6102fea-1bb4-4bf0-8a02-1ea2e5e5eea4}</Project>
       <Name>EntityService</Name>

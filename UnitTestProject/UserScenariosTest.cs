@@ -1,9 +1,13 @@
 ﻿using System;
+using Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Entity;
 using EntityService.Repository;
 using UnitTestProject.Generators;
 using System.Collections.Generic;
+using EntityService;
+using EntityService.Service;
+using Entity.Models;
 
 
 namespace UnitTestProject
@@ -16,16 +20,12 @@ namespace UnitTestProject
         private static CommandRepository commRep = CommandRepository.GetInstance();
         private static CommandLogRepository commLogRep = CommandLogRepository.GetInstance();
         private static TokenRepository tokRep = TokenRepository.GetInstance();
+        private static SystemParameterRepository spr = SystemParameterRepository.GetInstance();
 
         private Device device = null;
         private List<Command> command = null;
         private Token token = null;
 
-        public long UnixTimeNow()
-        {
-            var timeSpan = (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0));
-            return (long)timeSpan.TotalSeconds;
-        }
 
         [TestInitialize]
         public void Prepare()
@@ -53,7 +53,7 @@ namespace UnitTestProject
             newRecord.Command = recieved;
             newRecord.Name = recieved.Name;
             newRecord.Sent = false;
-            newRecord.Timestamp = UnixTimeNow();
+            newRecord.Timestamp = Utils.GetUnixTime();
             newRecord.Token = token;
             commLogRep.Save(newRecord);
             Console.WriteLine("CommLog ID: " + newRecord.Id);
@@ -65,6 +65,21 @@ namespace UnitTestProject
                 if (log.Id == newRecord.Id)
                     found = true;
             Assert.IsTrue(found);
+        }
+
+        [TestMethod]
+        public void TestInitialize()
+        {
+            SystemParameter reg = spr.GetByKey(Common.Dictionary.SystemProperties.SP_REGISTERED);
+            if (reg != null)
+                spr.Remove(reg.Id);
+            Initialization.Initialize();
+            Assert.IsFalse(SystemPropertyService.GetInstance().IsRegistered());
+
+            Initialization.Register();
+
+            Assert.IsTrue(SystemPropertyService.GetInstance().IsRegistered());
+            Assert.AreEqual(SystemPropertyService.GetInstance().GetValue(Common.Dictionary.SystemProperties.SP_SCADA_ID), "123");
         }
     }
 }

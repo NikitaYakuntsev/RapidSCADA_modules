@@ -6,9 +6,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace EntityService.Facade
+namespace EntityService.Service
 {
-    public class DeviceFacade
+    public class DeviceService
     {
         private static DeviceRepository devRep = DeviceRepository.GetInstance();
 
@@ -21,12 +21,12 @@ namespace EntityService.Facade
             return res;
         }
 
-        private DeviceFacade() { }
-        private static DeviceFacade instance = new DeviceFacade();
-        public static DeviceFacade GetInstance()
+        private DeviceService() { }
+        private static DeviceService instance = new DeviceService();
+        public static DeviceService GetInstance()
         {
             if (instance == null)
-                instance = new DeviceFacade();
+                instance = new DeviceService();
             return instance;
         }
     }

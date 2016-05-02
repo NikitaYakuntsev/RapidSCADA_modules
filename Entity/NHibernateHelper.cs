@@ -8,6 +8,7 @@ using NHibernate.Cfg;
 using NHibernate.Mapping.Attributes;
 using NHibernate.Tool.hbm2ddl;
 using System.IO;
+using Entity.Models;
 
 namespace Entity
 {
@@ -44,6 +45,9 @@ namespace Entity
 
                     var commLogStream = HbmSerializer.Default.Serialize(typeof(CommandLog));
                     conf.AddInputStream(commLogStream);
+
+                    var syspropStream = HbmSerializer.Default.Serialize(typeof(SystemParameter));
+                    conf.AddInputStream(syspropStream);                    
 
                     _sessionFactory = conf.BuildSessionFactory();
                     new SchemaUpdate(conf).Execute(true, true);

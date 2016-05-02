@@ -23,7 +23,7 @@ namespace Executor
 
         static void Main(string[] args)
         {
-            Common.Logging.LogManager.Adapter = new Common.Logging.Simple.ConsoleOutLoggerFactoryAdapter { Level = Common.Logging.LogLevel.Info };
+            Common.Logging.LogManager.Adapter = new Common.Logging.Simple.ConsoleOutLoggerFactoryAdapter { Level = Common.Logging.LogLevel.Info };            
             InitRest();
             InitScheduler();
             StartRest();
