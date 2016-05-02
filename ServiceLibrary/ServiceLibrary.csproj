@@ -49,6 +49,10 @@
     <Compile Include="MessageTypes.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EntityDTO\EntityDTO.csproj">
+      <Project>{56022b4a-b333-4d62-8b4f-5c4ab6c24b30}</Project>
+      <Name>EntityDTO</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EntityService\EntityService.csproj">
       <Project>{d6102fea-1bb4-4bf0-8a02-1ea2e5e5eea4}</Project>
       <Name>EntityService</Name>

@@ -71,6 +71,8 @@
     <Compile Include="DataRepositoryTest.cs" />
     <Compile Include="CommandRepositoryTest.cs" />
     <Compile Include="TokenRepositoryTest.cs" />
+    <Compile Include="CommandLogRepositoryTest.cs" />
+    <Compile Include="UserScenariosTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EntityService\EntityService.csproj">

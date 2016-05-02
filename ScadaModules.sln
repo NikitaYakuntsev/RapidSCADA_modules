@@ -17,6 +17,7 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityService", "EntityService\EntityService.csproj", "{D6102FEA-1BB4-4BF0-8A02-1EA2E5E5EEA4}"
 	ProjectSection(ProjectDependencies) = postProject
 		{C02BC42B-48E1-474D-82C6-B5B439A69354} = {C02BC42B-48E1-474D-82C6-B5B439A69354}
+		{56022B4A-B333-4D62-8B4F-5C4AB6C24B30} = {56022B4A-B333-4D62-8B4F-5C4AB6C24B30}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Executor", "Executor\Executor.csproj", "{28B4B58E-B616-4951-A631-9E94FDC553D4}"
@@ -27,6 +28,17 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject", "UnitTestProject\UnitTestProject.csproj", "{4057C309-52C8-426D-8E75-1ECDABD14B8B}"
 	ProjectSection(ProjectDependencies) = postProject
 		{24011917-1097-43AE-9B52-469DFC25BC47} = {24011917-1097-43AE-9B52-469DFC25BC47}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityDTO", "EntityDTO\EntityDTO.csproj", "{56022B4A-B333-4D62-8B4F-5C4AB6C24B30}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C02BC42B-48E1-474D-82C6-B5B439A69354} = {C02BC42B-48E1-474D-82C6-B5B439A69354}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchedulerJob", "SchedulerJob\SchedulerJob.csproj", "{F790A374-B005-4E67-B8CF-97DB392A001A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{56022B4A-B333-4D62-8B4F-5C4AB6C24B30} = {56022B4A-B333-4D62-8B4F-5C4AB6C24B30}
+		{D6102FEA-1BB4-4BF0-8A02-1EA2E5E5EEA4} = {D6102FEA-1BB4-4BF0-8A02-1EA2E5E5EEA4}
 	EndProjectSection
 EndProject
 Global
@@ -59,6 +71,14 @@ Global
 		{4057C309-52C8-426D-8E75-1ECDABD14B8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4057C309-52C8-426D-8E75-1ECDABD14B8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4057C309-52C8-426D-8E75-1ECDABD14B8B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56022B4A-B333-4D62-8B4F-5C4AB6C24B30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56022B4A-B333-4D62-8B4F-5C4AB6C24B30}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56022B4A-B333-4D62-8B4F-5C4AB6C24B30}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56022B4A-B333-4D62-8B4F-5C4AB6C24B30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F790A374-B005-4E67-B8CF-97DB392A001A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F790A374-B005-4E67-B8CF-97DB392A001A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F790A374-B005-4E67-B8CF-97DB392A001A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F790A374-B005-4E67-B8CF-97DB392A001A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

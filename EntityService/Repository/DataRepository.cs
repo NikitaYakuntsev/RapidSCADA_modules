@@ -80,6 +80,25 @@ namespace EntityService.Repository
             }
         }
 
+        public ICollection<Data> GetByDevice(int deviceId, object dateFrom, object dateTo)
+        {
+            using (ISession session = NHibernateHelper.OpenSession())
+            {
+                StringBuilder queryConstraing = new StringBuilder("FROM Data WHERE Device = :id");
+                if (dateFrom != null)
+                    queryConstraing.Append(" AND Timestamp >= :from");
+                if (dateTo != null)
+                    queryConstraing.Append(" AND Timestamp <= :to");
+                IQuery query = session.CreateQuery(queryConstraing.ToString());
+                query.SetParameter("id", deviceId);
+                if (dateFrom != null)
+                    query.SetParameter("from", dateFrom);
+                if (dateTo != null)
+                    query.SetParameter("to", dateTo);
+                return query.List<Data>();
+            }
+        }
+
 
     }
 }

@@ -33,6 +33,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Common.Logging">
+      <HintPath>..\..\Quartz.NET-2.3.3\bin\4.0\release\Quartz\Common.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Logging.Core">
+      <HintPath>..\..\Quartz.NET-2.3.3\bin\4.0\release\Quartz\Common.Logging.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Quartz">
+      <HintPath>..\..\Quartz.NET-2.3.3\bin\4.0\release\Quartz\Quartz.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.ServiceModel" />
@@ -49,6 +58,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="quartz.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EntityService\EntityService.csproj">
@@ -58,6 +70,10 @@
     <ProjectReference Include="..\Entity\Entity.csproj">
       <Project>{c02bc42b-48e1-474d-82c6-b5b439a69354}</Project>
       <Name>Entity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SchedulerJob\SchedulerJob.csproj">
+      <Project>{f790a374-b005-4e67-b8cf-97db392a001a}</Project>
+      <Name>SchedulerJob</Name>
     </ProjectReference>
     <ProjectReference Include="..\ServiceLibrary\ServiceLibrary.csproj">
       <Project>{24011917-1097-43ae-9b52-469dfc25bc47}</Project>

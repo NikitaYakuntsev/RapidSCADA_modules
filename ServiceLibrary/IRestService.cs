@@ -6,6 +6,7 @@ using System.ServiceModel.Web;
 using System.Text;
 using System.Threading.Tasks;
 using Entity;
+using EntityDTO.ModelsDTO;
 
 namespace ServiceLibrary
 {
@@ -19,7 +20,7 @@ namespace ServiceLibrary
         SystemMessage register(String publicKey);
 
         [OperationContract]
-        List<Device> getDevices();
+        List<DeviceDTO> getDevices();
 
         [OperationContract]
         Device getDevice(String deviceId);
@@ -34,7 +35,10 @@ namespace ServiceLibrary
         List<Data> getDeviceData(String deviceId);
 
         [OperationContract]
-        String sendCommand(String deviceId, String commandText);
+        List<DataDTO> getDeviceDataInPeriod(String deviceId, String from, String to);
+
+        [OperationContract]
+        System.Net.HttpStatusCode sendCommand(String deviceId, String commandId, String tokenId);
 
 
         [OperationContract]

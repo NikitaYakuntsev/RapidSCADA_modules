@@ -7,6 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Entity;
 using EntityService.Repository;
+using EntityService.Facade;
+using Entity.Models;
+using EntityDTO.ModelsDTO;
 
 namespace ServiceLibrary
 {
@@ -17,7 +20,7 @@ namespace ServiceLibrary
         private static DataRepository dataRep = DataRepository.GetInstance();
         private static CommandRepository commRep = CommandRepository.GetInstance();
         private static CommandLogRepository commLogRep = CommandLogRepository.GetInstance();
-        private static TokenRepository tokRep = TokenRepository.GetInstance();
+        private static TokenRepository tokRep = TokenRepository.GetInstance();        
 
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json,
             UriTemplate = "system/ip")]
@@ -50,11 +53,12 @@ namespace ServiceLibrary
             BodyStyle = WebMessageBodyStyle.Bare,
             ResponseFormat = WebMessageFormat.Json, 
             UriTemplate = "device/all")]
-        public List<Device> getDevices()
+        public List<DeviceDTO> getDevices()
         {
             AddCorsHeaders();
-            var res = devRep.GetAll().ToList();
-            return res;
+            //var res = devRep.GetAll().ToList();            
+            //return res;
+            return DeviceFacade.GetInstance().GetAllDevices();
         }
 
         [WebInvoke(Method = "GET",
@@ -101,18 +105,30 @@ namespace ServiceLibrary
             return res;
         }
 
+        [WebInvoke(Method = "GET",
+            BodyStyle = WebMessageBodyStyle.Bare,
+            ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "device/{deviceId}/data/?from={from}&to={to}")]
+        public List<DataDTO> getDeviceDataInPeriod(string deviceId, string from, string to)
+        {
+            return DataFacade.GetInstance().GetDatasByDevice(Int32.Parse(deviceId), from, to);
+        }
+
         [WebInvoke(Method = "POST",
             BodyStyle = WebMessageBodyStyle.WrappedRequest,
             RequestFormat = WebMessageFormat.Json, 
-            ResponseFormat = WebMessageFormat.Json, 
             UriTemplate = "device/{deviceId}/command")]
-        public string sendCommand(String deviceId, string commandText)
+        public System.Net.HttpStatusCode sendCommand(String deviceId, String commandId, String tokenId)
         {
             AddCorsHeaders();
-            throw new NotImplementedException();
+            try {
+                CommandFacade.GetInstance().AddCommandToQueue(Int32.Parse(commandId), Int32.Parse(tokenId));
+                return System.Net.HttpStatusCode.Created;
+            } catch (Exception e) {
+                throw e;
+            }
+           
         }
-
-
 
         
         [WebInvoke(Method = "OPTIONS", 
@@ -133,6 +149,9 @@ namespace ServiceLibrary
             response.Headers.Add("Access-Control-Allow-Headers", "Content-Type, X-Requested-With");
             response.Headers.Add("Access-Control-Allow-Credentials", "true");
         }
+
+
+
 
 
     }
