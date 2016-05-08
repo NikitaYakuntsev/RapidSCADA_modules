@@ -10,6 +10,8 @@ using EntityService.Repository;
 using EntityService.Service;
 using Entity.Models;
 using EntityDTO.ModelsDTO;
+using System.IO;
+using System.Reflection;
 
 namespace ServiceLibrary
 {
@@ -20,7 +22,8 @@ namespace ServiceLibrary
         private static DataRepository dataRep = DataRepository.GetInstance();
         private static CommandRepository commRep = CommandRepository.GetInstance();
         private static CommandLogRepository commLogRep = CommandLogRepository.GetInstance();
-        private static TokenRepository tokRep = TokenRepository.GetInstance();        
+        private static TokenRepository tokRep = TokenRepository.GetInstance();
+        private static SystemParameterRepository spRep = SystemParameterRepository.GetInstance();
 
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json,
             UriTemplate = "system/ip")]
@@ -35,17 +38,20 @@ namespace ServiceLibrary
             };
         }
 
-        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.WrappedRequest,
+        [WebInvoke(Method = "POST", 
+            RequestFormat = WebMessageFormat.Json, 
+            ResponseFormat = WebMessageFormat.Json, 
+            BodyStyle = WebMessageBodyStyle.WrappedRequest,
             UriTemplate = "register")]
-        public SystemMessage register(String publicKey)
+        public SystemMessage register(String key, String user)
         {
             AddCorsHeaders();
-            
+            String id = spRep.GetByKey(Common.Dictionary.SystemProperties.SP_SCADA_ID).Value;
             return new SystemMessage()
             {
-                id = "12345",
+                id = id,
                 name = "RapidSCADA",
-                key = publicKey
+                key = key
             };
         }
 
@@ -111,6 +117,7 @@ namespace ServiceLibrary
             UriTemplate = "device/{deviceId}/data/?from={from}&to={to}")]
         public List<DataDTO> getDeviceDataInPeriod(string deviceId, string from, string to)
         {
+            AddCorsHeaders();
             return DataService.GetInstance().GetDatasByDevice(Int32.Parse(deviceId), from, to);
         }
 
@@ -154,5 +161,31 @@ namespace ServiceLibrary
 
 
 
+
+        [System.ServiceModel.Web.WebGet( UriTemplate = "html/{*filename}" , BodyStyle = WebMessageBodyStyle.Bare )]
+        public Stream Connect(String filename)
+        {
+            AddCorsHeaders();
+
+            //var ass = Assembly.GetExecutingAssembly().GetFiles();
+            //var res = Assembly.GetExecutingAssembly().GetManifestResourceNames();
+
+            List<String> dirs = filename.Split('/').ToList();
+            string file = dirs.ElementAt(dirs.Count - 1);
+            dirs.RemoveAt(dirs.Count - 1);
+            StringBuilder assPath = new StringBuilder(50);
+            foreach (string dir in dirs)
+                assPath.Append(dir + ".");
+            assPath.Append(file);
+            var slName = Assembly.GetExecutingAssembly().GetName().Name;
+            String fullPath = String.Format("{0}.{1}", slName, assPath.ToString());
+            
+            //string result = "<a href='someLingk' >" + filename + "</a>";
+            //byte[] resultBytes = Encoding.UTF8.GetBytes(result);
+            WebOperationContext.Current.OutgoingResponse.ContentType = "text/html";
+            return Assembly.GetExecutingAssembly().GetManifestResourceStream(fullPath);
+            //return new MemoryStream(resultBytes);
+            
+        }
     }
 }

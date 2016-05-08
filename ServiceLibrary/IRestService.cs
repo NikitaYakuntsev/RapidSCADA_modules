@@ -17,7 +17,7 @@ namespace ServiceLibrary
         IP getCurrentIp();
 
         [OperationContract]
-        SystemMessage register(String publicKey);
+        SystemMessage register(String key, String user);
 
         [OperationContract]
         List<DeviceDTO> getDevices();
@@ -39,6 +39,9 @@ namespace ServiceLibrary
 
         [OperationContract]
         System.Net.HttpStatusCode sendCommand(String deviceId, String commandId, String tokenId);
+
+        [OperationContract]
+        System.IO.Stream Connect(String filename);
 
 
         [OperationContract]

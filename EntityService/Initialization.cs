@@ -52,8 +52,10 @@ namespace EntityService
         {
             if (!SystemPropertyService.GetInstance().IsRegistered())
             {
-                //do get for registration
-                String scadaId = "123";
+                String url = spr.GetByKey(Common.Dictionary.SystemProperties.SP_CLOUD_HOST).Value;
+                String regEp = Common.Dictionary.SystemProperties.EP_REGISTER;
+                String host = String.Format("{0}/{1}", url, regEp);
+                string scadaId = Common.Utils.GetJsonToken(Common.HttpRequest.WebRequest(host), "Uid");
                 spr.Register(scadaId);
             }
         }

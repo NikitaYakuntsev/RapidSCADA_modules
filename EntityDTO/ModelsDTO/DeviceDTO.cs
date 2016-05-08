@@ -12,6 +12,7 @@ namespace EntityDTO.ModelsDTO
         public List<CommandDTO> Commands { get; set; }
         public List<DataDTO> Datas { get; set; }
 
+        public string selected = "";
         public static DeviceDTO Convert(Device from)
         {
             DeviceDTO res = new DeviceDTO();

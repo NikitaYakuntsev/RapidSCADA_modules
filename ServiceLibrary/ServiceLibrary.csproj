@@ -30,7 +30,16 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Common.Logging">
+      <HintPath>..\..\Quartz.NET-2.3.3\bin\4.0\release\Quartz\Common.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Logging.Core">
+      <HintPath>..\..\Quartz.NET-2.3.3\bin\4.0\release\Quartz\Common.Logging.Core.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.ServiceModel" />
@@ -65,6 +74,46 @@
       <Project>{c02bc42b-48e1-474d-82c6-b5b439a69354}</Project>
       <Name>Entity</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="site\css\bootstrap\bootstrap-theme.css" />
+    <EmbeddedResource Include="site\css\bootstrap\bootstrap-theme.min.css" />
+    <EmbeddedResource Include="site\css\bootstrap\bootstrap.css" />
+    <EmbeddedResource Include="site\css\bootstrap\bootstrap.min.css" />
+    <EmbeddedResource Include="site\css\style.css" />
+    <EmbeddedResource Include="site\html\choose.html" />
+    <EmbeddedResource Include="site\html\device.html" />
+    <EmbeddedResource Include="site\html\deviceList.html" />
+    <EmbeddedResource Include="site\img\logo.png" />
+    <EmbeddedResource Include="site\index.html" />
+    <EmbeddedResource Include="site\js\angular\angular-route.min.js" />
+    <EmbeddedResource Include="site\js\angular\angular.min.js" />
+    <EmbeddedResource Include="site\js\bootstrap.js" />
+    <EmbeddedResource Include="site\js\bootstrap.min.js" />
+    <EmbeddedResource Include="site\js\bootstrap\bootstrap.js" />
+    <EmbeddedResource Include="site\js\bootstrap\bootstrap.min.js" />
+    <EmbeddedResource Include="site\js\bootstrap\jquery-2.2.0.min.js" />
+    <EmbeddedResource Include="site\js\bootstrap\npm.js" />
+    <EmbeddedResource Include="site\js\jquery-2.2.0.min.js" />
+    <EmbeddedResource Include="site\js\localforage.js" />
+    <EmbeddedResource Include="site\js\project\controllers.js" />
+    <EmbeddedResource Include="site\js\project\routing.js" />
+    <EmbeddedResource Include="site\js\SCADA\localforage.js" />
+    <EmbeddedResource Include="site\js\SCADA\SCADAManage.js" />
+    <EmbeddedResource Include="site\js\SCADA\SCADAMessage.js" />
+    <EmbeddedResource Include="site\js\SCADA\SCADARegister.js" />
+    <EmbeddedResource Include="site\js\xdls-0.1.8.min.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="site\css\bootstrap\bootstrap-theme.css.map" />
+    <EmbeddedResource Include="site\css\bootstrap\bootstrap-theme.min.css.map" />
+    <EmbeddedResource Include="site\css\bootstrap\bootstrap.css.map" />
+    <EmbeddedResource Include="site\css\bootstrap\bootstrap.min.css.map" />
+    <EmbeddedResource Include="site\fonts\glyphicons-halflings-regular.eot" />
+    <EmbeddedResource Include="site\fonts\glyphicons-halflings-regular.svg" />
+    <EmbeddedResource Include="site\fonts\glyphicons-halflings-regular.ttf" />
+    <EmbeddedResource Include="site\fonts\glyphicons-halflings-regular.woff" />
+    <EmbeddedResource Include="site\fonts\glyphicons-halflings-regular.woff2" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

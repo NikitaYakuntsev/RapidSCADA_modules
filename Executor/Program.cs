@@ -18,12 +18,14 @@ namespace Executor
     {
         private static WebServiceHost host;
         private static IScheduler scheduler;
-        private static String uriAddr = "http://0.0.0.0:8000/scada/";
+        private static String uriAddr = "http://0.0.0.0:8080/scada/";
         private static int PERIOD = 60; //probably get it from system table.
 
         static void Main(string[] args)
         {
-            Common.Logging.LogManager.Adapter = new Common.Logging.Simple.ConsoleOutLoggerFactoryAdapter { Level = Common.Logging.LogLevel.Info };            
+            Common.Logging.LogManager.Adapter = new Common.Logging.Simple.ConsoleOutLoggerFactoryAdapter { Level = Common.Logging.LogLevel.Info };
+            EntityService.Initialization.Initialize();
+            EntityService.Initialization.Register();
             InitRest();
             InitScheduler();
             StartRest();

@@ -1,0 +1,155 @@
+<html>
+<head>
+    <script src="js/localforage.js"></script>
+    <script src="js/jquery-2.2.0.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/xdls-0.1.8.min.js"></script>
+    <link href="css/style.css" rel="stylesheet" />
+    <link href="css/bootstrap/bootstrap-theme.min.css" rel="stylesheet"/>
+    <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet"/>
+    <title>Register</title>
+</head>
+<body class="register">
+<div class="container">
+    <div class="row">
+        <div class="Absolute-Center is-Responsive">
+            <div id="logo-container"></div>
+            <div class="col-sm-12 col-md-10 col-md-offset-1">
+                <form action="" id="loginForm">
+                    <div class="form-group input-group" style="width:100%">
+                        <input type="button" class="btn btn-default" style="width:100%" onclick="register();" value="Register to SCADA">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var XDLS = require( 'xdls' );
+    var xdls = new XDLS( {
+        origin: 'http://scadadiploma.azurewebsites.net',
+        path: '/'
+    } );
+    function register() {
+        var public = null, private = null, guid = null;
+        xdls.getItem("uid", function(err, value) {
+            if (value == null) {
+                $.get({
+                    url: "http://scadadiploma.azurewebsites.net/SCADA/RegisterUser",
+                    success: function (value) {
+                        guid = JSON.parse(value).Uid;
+                        xdls.setItem("uid", guid, function(err) {
+                            if (err == null)
+                                alert("success uid");
+                            else
+                                alert("try once again")
+                        })
+                    }
+                }
+                )
+            } else
+                guid = value;
+        })
+        xdls.getItem("keyPair", function (err, value) {
+            if (value == null) {
+                window.crypto.subtle.generateKey(
+                        {
+                            name: "RSA-OAEP",
+                            modulusLength: 2048, //can be 1024, 2048, or 4096
+                            publicExponent: new Uint8Array([0x01, 0x00, 0x01]),
+                            hash: {name: "SHA-256"}, //can be "SHA-1", "SHA-256", "SHA-384", or "SHA-512"
+                        },
+                        true, //whether the key is extractable (i.e. can be used in exportKey)
+                        ["encrypt", "decrypt"] //must be ["encrypt", "decrypt"] or ["wrapKey", "unwrapKey"]
+                ).then(function(key) {
+                    //export public key
+                    window.crypto.subtle.exportKey(
+                            "jwk",
+                            key.publicKey
+                    ).then(function(keydata) {
+                        public = keydata;
+                    });
+                    window.crypto.subtle.exportKey(
+                            "jwk",
+                            key.publicKey
+                    ).then(function(keydata) {
+                        private = keydata;
+                    });
+                    var saveID = setInterval(function() {
+                        if (public == null || private == null)
+                            return;
+                        clearInterval(saveID);
+                        var password = prompt("Enter your password to secure access to any SCADA. " +
+                                "Be sure to remember it or to write it somewhere - it can't be restored, " +
+                                "and if you lose it you will lose access to all your SCADA systems. " +
+                                "Don't enter this password on other sites except scadadiploma.azurewebservices.net or access to scada systems can be stolen");
+                        while (password == null || password == "") {
+                            var password = prompt("Password can't be empty");
+                        }
+                        var key = {
+                            public: public,
+                            private: encrypt(JSON.stringify(private), password)
+                        }
+                        xdls.setItem("keyPair", key, function(err) {
+                            if (err == null)
+                                alert("success key");
+                            else
+                                alert("try once again")
+                        });
+                    }, 100);
+                })
+            } else {
+                public = value.public;
+            }
+        });
+
+        xdls.getItem("SCADAList", function (err, value) {
+            console.log("inside SCADALIST");
+            var SCADAID = setInterval(function () {
+                console.log("inside interval");
+                if (public == null || guid == null)
+                    return;
+                clearInterval(SCADAID);
+                var data = {
+                    key: JSON.stringify(public),
+                    user:guid
+                };
+                $.ajax({
+                    type:"POST",
+                    url: "/scada/register",
+                    data: JSON.stringify(data),
+					headers: {
+                        "Content-Type":"application/json"
+                    },
+                    success: function(newData) {
+                        if (value == null)
+                            value = [newData];
+                        else {
+                            for (var i = 0; i < value.length; i++)
+                                if (value[i].id === newData.id)
+                                    return;
+                            value.push(newData);
+                        }
+                        xdls.setItem("SCADAList", value, function(err) {
+                            if (err == null)
+                                alert("success scada");
+                            else
+                                alert("try once again")
+                        });
+                    },
+                    dataType: "application/json"
+                });
+            }, 100);
+        });
+    }
+
+    function encrypt (message, password) {
+        var result = "";
+        for (var i = 0; i < message.length; i++) {
+            result += String.fromCharCode(message.charCodeAt(i) ^ password.charCodeAt(i%password.length));
+        }
+        return result;
+    }
+</script>
+</body>
+</html>

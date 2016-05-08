@@ -24,7 +24,8 @@ namespace Entity
                 {
                     
                     var conf = new Configuration();
-                    conf.Configure(@"D:\NHibernate.cfg.xml");
+                    String path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + @"\NHibernate.cfg.xml";
+                    conf.Configure(path);
                     HbmSerializer.Default.Validate = true;
 
 

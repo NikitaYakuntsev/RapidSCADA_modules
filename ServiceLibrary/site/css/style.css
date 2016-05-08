@@ -1,0 +1,27 @@
+/* front page */
+
+body.register {
+    background-color: #999;
+}
+
+#logo-container{
+    margin: auto;
+    margin-bottom: 10px;
+    width:561px;
+    height:191px;
+    background-image:url('../img/logo.png');
+}
+
+.Absolute-Center {
+    margin: auto;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+}
+
+.Absolute-Center.is-Responsive {
+    width: 50%;
+    height: 50%;
+    min-width: 561px;
+    max-width: 561px;
+    padding: 0px;
+}
