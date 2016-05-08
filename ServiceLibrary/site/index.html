@@ -121,7 +121,26 @@
 					headers: {
                         "Content-Type":"application/json"
                     },
-                    success: function(newData) {
+					success: function(error) {
+						console.error(error);
+						var newData = JSON.parse(error.responseText);
+						if (value == null)
+                            value = [newData];
+                        else {
+                            for (var i = 0; i < value.length; i++)
+                                if (value[i].id === newData.id)
+                                    return;
+                            value.push(newData);
+                        }
+                        xdls.setItem("SCADAList", value, function(err) {
+                            if (err == null)
+                                alert("success scada");
+                            else
+                                alert("try once again")
+                        });
+					},
+                    error: function(error) {
+						var newData = JSON.parse(error.responseText);
                         if (value == null)
                             value = [newData];
                         else {
