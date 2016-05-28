@@ -18,7 +18,14 @@ namespace EntityDTO.ModelsDTO
             res.Id = from.Id;
             res.Name = from.Name;
             res.Text = from.Text;
-            res.Params = null;
+
+            int size = new Random().Next(1,3);
+            res.Params = new Random().Next() % 3 == 0 ? null : new CommandParameterDTO[size];
+            if (res.Params != null)
+            {
+                for (int i = 0; i < size; i++)
+                    res.Params[i] = new CommandParameterDTO();
+            }
             return res;            
         }
     }
