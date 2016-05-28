@@ -82,10 +82,12 @@ namespace ServiceLibrary
             BodyStyle = WebMessageBodyStyle.Bare,
             ResponseFormat = WebMessageFormat.Json,
             UriTemplate = "device/{deviceId}/command/all")]
-        public List<Command> getDeviceCommands(String deviceId)
+        public List<CommandDTO> getDeviceCommands(String deviceId)
         {
             AddCorsHeaders();
-            List<Command> res = commRep.GetByDevice(Int32.Parse(deviceId)).ToList();
+            List<CommandDTO> res = CommandService.GetInstance().GetByDevice(Int32.Parse(deviceId)).ToList();
+            
+            //List<Command> res = commRep.GetByDevice(Int32.Parse(deviceId)).ToList();
             return res;
         }
 
@@ -165,11 +167,6 @@ namespace ServiceLibrary
         [System.ServiceModel.Web.WebGet( UriTemplate = "html/{*filename}" , BodyStyle = WebMessageBodyStyle.Bare )]
         public Stream Connect(String filename)
         {
-            AddCorsHeaders();
-
-            //var ass = Assembly.GetExecutingAssembly().GetFiles();
-            //var res = Assembly.GetExecutingAssembly().GetManifestResourceNames();
-
             List<String> dirs = filename.Split('/').ToList();
             string file = dirs.ElementAt(dirs.Count - 1);
             dirs.RemoveAt(dirs.Count - 1);
@@ -179,13 +176,33 @@ namespace ServiceLibrary
             assPath.Append(file);
             var slName = Assembly.GetExecutingAssembly().GetName().Name;
             String fullPath = String.Format("{0}.{1}", slName, assPath.ToString());
-            
-            //string result = "<a href='someLingk' >" + filename + "</a>";
-            //byte[] resultBytes = Encoding.UTF8.GetBytes(result);
+       
             WebOperationContext.Current.OutgoingResponse.ContentType = "text/html";
-            return Assembly.GetExecutingAssembly().GetManifestResourceStream(fullPath);
-            //return new MemoryStream(resultBytes);
-            
+            return Assembly.GetExecutingAssembly().GetManifestResourceStream(fullPath);            
+        }
+
+
+        //Endpoints for Rapid SCADA
+        [WebInvoke(Method = "POST",
+            BodyStyle = WebMessageBodyStyle.WrappedRequest,
+            RequestFormat = WebMessageFormat.Json,
+            UriTemplate = "device")]
+        public System.Net.HttpStatusCode editDevice(Device device)
+        {
+            //dummy device validation
+            //dummy update
+            throw new NotImplementedException();
+        }
+
+        [WebInvoke(Method = "POST",
+            BodyStyle = WebMessageBodyStyle.WrappedRequest,
+            RequestFormat = WebMessageFormat.Json,
+            UriTemplate = "command")]
+        public System.Net.HttpStatusCode editCommand(Command command)
+        {
+            //dummy command validation
+            //dummy update
+            throw new NotImplementedException();
         }
     }
 }

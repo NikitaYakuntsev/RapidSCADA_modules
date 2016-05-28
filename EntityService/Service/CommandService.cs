@@ -1,5 +1,6 @@
 ﻿using Common;
 using Entity;
+using EntityDTO.ModelsDTO;
 using EntityService.Repository;
 using System;
 using System.Collections.Generic;
@@ -36,6 +37,15 @@ namespace EntityService.Service
             newRecord.Token = token;
             commLogRep.Save(newRecord);
             return true;
+        }
+
+        public List<CommandDTO> GetByDevice(int deviceId)
+        {
+            System.Collections.Generic.ICollection<Command> coms = commRep.GetByDevice(deviceId);
+            List<CommandDTO> res = new List<CommandDTO>();
+            foreach (Command d in coms)
+                res.Add(CommandDTO.Convert(d));
+            return res;
         }
 
     }

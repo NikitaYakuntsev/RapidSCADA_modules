@@ -26,7 +26,7 @@ namespace ServiceLibrary
         Device getDevice(String deviceId);
 
         [OperationContract]
-        List<Command> getDeviceCommands(String deviceId);
+        List<CommandDTO> getDeviceCommands(String deviceId);
 
         [OperationContract]
         List<CommandLog> getDeviceCommandLog(String deviceId);
@@ -42,6 +42,12 @@ namespace ServiceLibrary
 
         [OperationContract]
         System.IO.Stream Connect(String filename);
+
+        [OperationContract]
+        System.Net.HttpStatusCode editDevice(Device device);
+
+        [OperationContract]
+        System.Net.HttpStatusCode editCommand(Command command);
 
 
         [OperationContract]

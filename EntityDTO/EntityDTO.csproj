@@ -43,7 +43,9 @@
     <Compile Include="IConvertable.cs" />
     <Compile Include="ModelsDTO\CommandDTO.cs" />
     <Compile Include="ModelsDTO\CommandLogDTO.cs" />
+    <Compile Include="ModelsDTO\CommandParameterDTO.cs" />
     <Compile Include="ModelsDTO\DataDTO.cs" />
+    <Compile Include="ModelsDTO\DataTypeDTO.cs" />
     <Compile Include="ModelsDTO\DeviceDTO.cs" />
     <Compile Include="ModelsDTO\TokenDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

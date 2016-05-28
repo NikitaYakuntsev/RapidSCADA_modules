@@ -11,12 +11,14 @@ namespace EntityDTO.ModelsDTO
     {
         public String expand = "";
         public String direction = "down";
+        public CommandParameterDTO[] Params { get; set; } //not possible to do with lower case.
         public static CommandDTO Convert(Command from)
         {
             CommandDTO res = new CommandDTO();
             res.Id = from.Id;
             res.Name = from.Name;
             res.Text = from.Text;
+            res.Params = null;
             return res;            
         }
     }
